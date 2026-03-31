@@ -1,0 +1,97 @@
+<!-- Abstract Interactive Geometric Background -->
+<style>
+  .anim-float-1 { animation: float1 15s ease-in-out infinite alternate; }
+  .anim-float-2 { animation: float2 20s ease-in-out infinite alternate-reverse; }
+  .anim-float-3 { animation: float3 18s ease-in-out infinite alternate; }
+
+  @keyframes float1 {
+    0% { transform: translate(0, 0) rotate(0deg); }
+    100% { transform: translate(50px, 40px) rotate(45deg); }
+  }
+  @keyframes float2 {
+    0% { transform: translate(0, 0) rotate(0deg) scale(1); }
+    100% { transform: translate(-40px, 60px) rotate(-30deg) scale(1.1); }
+  }
+  @keyframes float3 {
+    0% { transform: translate(0, 0) scale(1) rotate(0deg); }
+    100% { transform: translate(30px, -50px) scale(0.9) rotate(20deg); }
+  }
+
+  .glass-shape {
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.05);
+  }
+</style>
+
+<div id="interactive-bg" class="fixed inset-0 z-[-10] overflow-hidden pointer-events-none block">
+  <!-- Soft Base Blobs -->
+  <div class="parallax-element absolute top-[10%] left-[5%] w-[400px] h-[400px] bg-organic-primaryCont/30 rounded-full mix-blend-multiply filter blur-3xl opacity-50" data-speed="2"></div>
+  <div class="parallax-element absolute bottom-[10%] right-[5%] w-[500px] h-[500px] bg-organic-tertiaryCont/30 rounded-full mix-blend-multiply filter blur-3xl opacity-40" data-speed="-2"></div>
+  <div class="parallax-element absolute top-[40%] right-[30%] w-[300px] h-[300px] bg-organic-secondaryCont/20 rounded-full mix-blend-multiply filter blur-3xl opacity-60" data-speed="1.5"></div>
+
+  <!-- Abstract SVG Fruit Representations -->
+  <!-- "Lemon" teardrop -->
+  <div class="parallax-element absolute top-[15%] right-[15%] opacity-80 anim-float-1 glass-shape bg-gradient-to-br from-organic-tertiaryCont/50 to-white/10 rounded-tr-full rounded-b-[3rem] w-32 h-32" data-speed="4"></div>
+  
+  <!-- "Orange" perfect circle with slice lines -->
+  <div class="parallax-element absolute bottom-[20%] left-[10%] opacity-80 anim-float-2 glass-shape bg-gradient-to-tl from-organic-secondaryCont/60 to-white/20 rounded-full w-40 h-40 flex items-center justify-center p-2" data-speed="-3">
+    <div class="w-full h-full border border-white/30 rounded-full border-dashed"></div>
+  </div>
+
+  <!-- "Lime/Apple" slightly offset oval -->
+  <div class="parallax-element absolute top-[60%] right-[8%] opacity-70 anim-float-3 glass-shape bg-gradient-to-br from-organic-primaryCont/50 to-white/20 rounded-[4rem] rounded-tl-[1rem] w-24 h-24 transform rotate-12" data-speed="5"></div>
+  
+  <!-- Small floating seeds/leaves -->
+  <div class="parallax-element absolute top-[30%] left-[20%] w-8 h-8 glass-shape bg-organic-primary/20 rounded-bl-full rounded-tr-full anim-float-2" data-speed="6"></div>
+  <div class="parallax-element absolute bottom-[40%] right-[40%] w-12 h-6 glass-shape bg-organic-secondary/20 rounded-full anim-float-1" data-speed="-5"></div>
+  <div class="parallax-element absolute top-[80%] left-[40%] w-6 h-6 glass-shape bg-organic-tertiaryCont/60 rounded-full anim-float-3" data-speed="3"></div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const bgContainer = document.getElementById('interactive-bg');
+    const elements = document.querySelectorAll('.parallax-element');
+    
+    // Quick exit on mobile for performance
+    if (window.innerWidth < 768) return;
+
+    let mouseX = 0;
+    let mouseY = 0;
+    let currentX = 0;
+    let currentY = 0;
+
+    window.addEventListener('mousemove', (e) => {
+      // Normalize mouse coordinates from -1 to 1 based on screen center
+      mouseX = (e.clientX / window.innerWidth) * 2 - 1;
+      mouseY = (e.clientY / window.innerHeight) * 2 - 1;
+    });
+
+    // Use requestAnimationFrame for smooth interpolation (Lerp)
+    function animateParallax() {
+      // Smooth out the movement (easing)
+      currentX += (mouseX - currentX) * 0.05;
+      currentY += (mouseY - currentY) * 0.05;
+
+      elements.forEach((el) => {
+        const speed = parseFloat(el.getAttribute('data-speed')) || 1;
+        // Calculate shift dynamically based on element speed
+        const xOffset = currentX * speed * 15;
+        const yOffset = currentY * speed * 15;
+        
+        // We apply parallax via CSS variables which can seamlessly blend with keyframe animations
+        // that animate the transform property natively. To avoid overriding the CSS keyframes, 
+        // we'll apply it via margins or left/top shifts. But doing it via transform is smoother.
+        // Actually, CSS variables are perfect here if setup right. 
+        // For simplicity, we just use inline style transform alongside the CSS animations. 
+        // Wait, inline transform overrides CSS keyframes.
+        // Solution: Wrap elements if they have keyframes, or just translate using margin.
+        el.style.marginLeft = `${xOffset}px`;
+        el.style.marginTop = `${yOffset}px`;
+      });
+      requestAnimationFrame(animateParallax);
+    }
+    animateParallax();
+  });
+</script>

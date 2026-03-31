@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Admin Login - Fruit Analysis</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Tailwind CSS (V3 CDN for configuration) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              display: ['"Plus Jakarta Sans"', 'sans-serif'],
+              body: ['"Inter"', 'sans-serif'],
+            },
+            colors: {
+              organic: {
+                bg: '#f5f7f5',
+                surfaceLow: '#eff1ef',
+                surface: '#ffffff',
+                primary: '#006b1b',
+                primaryDim: '#005d16',
+                primaryCont: '#91f78e',
+                secondary: '#874e00',
+                secondaryCont: '#ffc791',
+                onSecondaryCont: '#6a3c00',
+                tertiaryCont: '#eefe59',
+                onTertiaryCont: '#596100',
+                textPrimary: '#2c2f2e',
+                textSecondary: '#595c5b',
+                outlineVariant: '#abaeac',
+              }
+            },
+            borderRadius: {
+              '4xl': '2rem',
+              '5xl': '3rem',
+            },
+            boxShadow: {
+              'glass': '0 40px 40px -10px rgba(44, 47, 46, 0.06)',
+            }
+          }
+        }
+      }
+    </script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+
+    <style>
+      body {
+        font-family: 'Inter', sans-serif;
+        background-color: #2c2f2e; /* dark mode for admin */
+        color: #f5f7f5;
+      }
+      h1, h2, h3, h4, h5, h6, .display-font {
+        font-family: 'Plus Jakarta Sans', sans-serif;
+      }
+      .glass-card {
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border: 1px solid rgba(255, 255, 255, 0.15); /* ghost border */
+        box-shadow: 0 40px 40px -10px rgba(0, 0, 0, 0.3);
+      }
+      .btn-primary-gradient {
+        background: linear-gradient(90deg, #874e00 0%, #6a3c00 100%);
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+      }
+      .btn-primary-gradient:hover {
+        transform: scale(1.02);
+        box-shadow: 0 10px 25px -5px rgba(135, 78, 0, 0.4);
+      }
+      .ghost-input {
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        transition: all 0.3s ease;
+        color: #ffffff;
+      }
+      .ghost-input:focus {
+        outline: none;
+        box-shadow: 0 0 0 4px rgba(135, 78, 0, 0.25);
+        border-color: #ffc791;
+      }
+      .ghost-input::placeholder {
+        color: #abaeac;
+      }
+      .alert {
+        padding: 1rem 1.5rem;
+        margin-bottom: 1rem;
+        border-radius: 1rem;
+        font-weight: 500;
+        background-color: rgba(239, 68, 68, 0.2);
+        color: #fca5a5;
+        border: 1px solid rgba(239, 68, 68, 0.4);
+      }
+    </style>
+  </head>
+  <body class="relative overflow-x-hidden min-h-screen flex flex-col justify-center items-center">
+    {% include "background.html" %}
+
+    <!-- Decor blobs (Darkened for admin) -->
+    <div class="absolute top-1/4 left-1/4 w-96 h-96 bg-organic-secondary/20 rounded-full mix-blend-screen filter blur-[100px] z-0 pointer-events-none -translate-x-1/2 -translate-y-1/2"></div>
+    <div class="absolute bottom-1/4 right-1/4 w-96 h-96 bg-organic-primary/20 rounded-full mix-blend-screen filter blur-[100px] z-0 pointer-events-none translate-x-1/2 translate-y-1/2"></div>
+
+    <div class="w-full max-w-md mx-auto px-5 sm:px-8 relative z-10">
+      
+      <div class="text-center mb-10">
+        <a href="/" class="inline-flex items-center space-x-3 group justify-center">
+            <div class="w-14 h-14 rounded-full bg-organic-secondaryCont flex items-center justify-center text-organic-onSecondaryCont transition-transform group-hover:rotate-12 shadow-sm border border-transparent">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" class="w-7 h-7" viewBox="0 0 24 24">
+                <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
+              </svg>
+            </div>
+        </a>
+        <h1 class="display-font text-3xl font-bold text-white mt-6 tracking-tight">System<span class="text-organic-secondaryCont">Admin</span></h1>
+      </div>
+
+      <div class="glass-card rounded-[3rem] p-8 lg:p-10 w-full relative">
+        <h2 class="display-font text-2xl font-bold text-white mb-8 text-center border-b border-white/20 pb-4">Elevated Access Protocol</h2>
+
+        {% with messages = get_flashed_messages(with_categories=true) %} 
+          {% if messages %} 
+            {% for category, message in messages %}
+              <div class="alert alert-{{ category }} animate__animated animate__fadeIn">{{ message }}</div>
+            {% endfor %} 
+          {% endif %} 
+        {% endwith %}
+
+        <form method="POST" action="{{ url_for('admin_login') }}" class="space-y-6">
+          <div class="space-y-1">
+            <label for="username" class="block text-sm font-bold text-organic-outlineVariant ml-2">Admin Identifier</label>
+            <input type="text" id="username" name="username" class="ghost-input w-full rounded-full px-6 py-4" placeholder="admin_user" minlength="3" maxlength="100" pattern="[A-Za-z0-9_]+" required>
+          </div>
+
+          <div class="space-y-1">
+            <label for="password" class="block text-sm font-bold text-organic-outlineVariant ml-2">Access Key</label>
+            <input type="password" id="password" name="password" class="ghost-input w-full rounded-full px-6 py-4" placeholder="••••••••" minlength="8" maxlength="200" required>
+          </div>
+
+          <div class="pt-4">
+            <button type="submit" class="w-full text-white text-lg font-bold py-4 rounded-full btn-primary-gradient inline-flex justify-center items-center">
+              Authorize Root
+              <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
+            </button>
+          </div>
+        </form>
+      </div>
+
+      <div class="mt-8 text-center text-organic-outlineVariant text-sm">
+        <a href="/" class="hover:text-white transition-colors">← Return to Consumer Space</a>
+      </div>
+      
+    </div>
+
+      {% include 'footer.html' %}
+  </body>
+</html>

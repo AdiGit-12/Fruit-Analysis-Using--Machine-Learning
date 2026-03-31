@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>About Us - Fruit Analysis</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Tailwind CSS (V3 CDN for configuration) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              display: ['"Plus Jakarta Sans"', 'sans-serif'],
+              body: ['"Inter"', 'sans-serif'],
+            },
+            colors: {
+              organic: {
+                bg: '#f5f7f5',
+                surfaceLow: '#eff1ef',
+                surface: '#ffffff',
+                primary: '#006b1b',
+                primaryDim: '#005d16',
+                primaryCont: '#91f78e',
+                secondary: '#874e00',
+                secondaryCont: '#ffc791',
+                onSecondaryCont: '#6a3c00',
+                tertiaryCont: '#eefe59',
+                onTertiaryCont: '#596100',
+                textPrimary: '#2c2f2e',
+                textSecondary: '#595c5b',
+                outlineVariant: '#abaeac',
+              }
+            },
+            borderRadius: {
+              '4xl': '2rem',
+              '5xl': '3rem',
+            },
+            boxShadow: {
+              'glass': '0 40px 40px -10px rgba(44, 47, 46, 0.06)',
+            }
+          }
+        }
+      }
+    </script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+
+    <style>
+      body {
+        font-family: 'Inter', sans-serif;
+        background-color: #f5f7f5;
+        color: #2c2f2e;
+      }
+      h1, h2, h3, h4, h5, h6, .display-font {
+        font-family: 'Plus Jakarta Sans', sans-serif;
+      }
+      .glass-card {
+        background: rgba(255, 255, 255, 0.7);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border: 1px solid rgba(171, 174, 172, 0.15);
+        box-shadow: 0 40px 40px -10px rgba(44, 47, 46, 0.06);
+      }
+      .btn-primary-gradient {
+        background: linear-gradient(90deg, #006b1b 0%, #005d16 100%);
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+      }
+      .btn-primary-gradient:hover {
+        transform: scale(1.02);
+        box-shadow: 0 10px 25px -5px rgba(0, 107, 27, 0.3);
+      }
+      #user-dropdown-menu {
+        transition: opacity 0.2s ease, transform 0.2s ease;
+      }
+      #user-dropdown-menu:not(.hidden) {
+        display: block;
+        opacity: 1;
+        transform: translateY(0);
+      }
+    </style>
+  </head>
+  <body class="bg-organic-bg text-organic-textPrimary relative overflow-x-hidden min-h-screen flex flex-col">
+    {% include "background.html" %}
+
+    {% set active_page = "about" %}
+    {% include "navbar.html" %}
+
+    <!-- Main Content -->
+    <main class="flex-grow flex flex-col items-center pt-24 pb-32 w-full mx-auto relative px-5 sm:px-8 max-w-7xl">
+
+      <!-- Hero Section -->
+      <section class="w-full text-center max-w-4xl mx-auto mb-20 relative">
+        <div class="absolute inset-0 bg-organic-primaryCont/30 w-64 h-64 rounded-full filter blur-3xl opacity-50 mx-auto -translate-y-10 z-0"></div>
+        <h1 class="display-font text-5xl md:text-6xl font-bold text-organic-textPrimary leading-tight mb-8 relative z-10">
+          Redefining Quality with <span class="text-organic-primary">Computer Vision</span>.
+        </h1>
+        <p class="text-xl text-organic-textSecondary leading-relaxed relative z-10">
+          Our AI-powered platform delivers instant fruit analysis with unparalleled accuracy, bridging the gap between deep learning and daily organic consumption.
+        </p>
+      </section>
+
+      <!-- Technology Overview -->
+      <section class="w-full bg-white rounded-[4rem] p-10 lg:p-16 mb-24 border border-organic-surfaceLow shadow-sm flex flex-col md:flex-row items-center gap-12 lg:gap-20">
+        <div class="md:w-1/2 w-full">
+          <div class="relative rounded-[3rem] overflow-hidden aspect-[4/3] group">
+            <div class="absolute inset-0 bg-organic-primary/5 mix-blend-overlay z-10 pointer-events-none"></div>
+            <img class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700" src="/static/side-view-fruits-as-coconut-banana-grape-pear-peach-basket-with-leaves-green-background.jpg" alt="Fruit analysis tech" />
+          </div>
+        </div>
+        
+        <div class="md:w-1/2 w-full flex flex-col justify-center">
+          <h2 class="display-font text-4xl font-bold text-organic-textPrimary mb-8">System Architecture</h2>
+          <p class="text-organic-textSecondary text-lg mb-6 leading-relaxed">
+            By leveraging state-of-the-art convolutional neural networks, our engine processes over 50 fruit variants with 95%+ confidence. It extracts hidden metrics like texture viability and ripeness stages.
+          </p>
+          <p class="text-organic-textSecondary text-lg mb-8 leading-relaxed">
+            The dataset is rigorously curated—over 100,000 augmented images ensure robust fidelity under dynamic environmental lighting.
+          </p>
+          
+          <div class="flex flex-wrap gap-4">
+            <div class="bg-organic-surfaceLow px-5 py-3 rounded-xl border border-white font-medium text-organic-textPrimary shadow-sm flex items-center">
+              <span class="w-2 h-2 rounded-full bg-organic-primary mr-3"></span>Deep Learning
+            </div>
+            <div class="bg-organic-surfaceLow px-5 py-3 rounded-xl border border-white font-medium text-organic-textPrimary shadow-sm flex items-center">
+              <span class="w-2 h-2 rounded-full bg-organic-secondary mr-3"></span>Millisecond Processing
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Core Capabilities -->
+      <section class="w-full mb-32">
+        <div class="text-center mb-16 max-w-2xl mx-auto">
+          <h2 class="display-font text-4xl font-bold text-organic-textPrimary mb-4">Core Capabilities</h2>
+          <p class="text-xl text-organic-textSecondary">Engineering nature's data for everyone.</p>
+        </div>
+
+        <div class="grid md:grid-cols-3 gap-8">
+          <div class="bg-organic-surfaceLow/50 p-10 rounded-[3rem] border border-white hover:bg-white transition-colors duration-300">
+            <div class="w-16 h-16 rounded-full bg-organic-primaryCont/30 text-organic-primary flex items-center justify-center mb-6">
+              <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+            </div>
+            <h3 class="display-font text-2xl font-bold text-organic-textPrimary mb-4">Instance Classification</h3>
+            <p class="text-organic-textSecondary leading-relaxed">Rapid identification architecture provides an immediate analysis matrix, reducing process latency to fractions of a second.</p>
+          </div>
+
+          <div class="bg-organic-surfaceLow/50 p-10 rounded-[3rem] border border-white hover:bg-white transition-colors duration-300">
+            <div class="w-16 h-16 rounded-full bg-organic-secondaryCont/40 text-organic-onSecondaryCont flex items-center justify-center mb-6">
+              <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
+            </div>
+            <h3 class="display-font text-2xl font-bold text-organic-textPrimary mb-4">Nutrient Extraction</h3>
+            <p class="text-organic-textSecondary leading-relaxed">Maps the physical subject to deeply researched biochemical databases, surfacing macros, vitamins, and sugar estimates.</p>
+          </div>
+
+          <div class="bg-organic-surfaceLow/50 p-10 rounded-[3rem] border border-white hover:bg-white transition-colors duration-300">
+            <div class="w-16 h-16 rounded-full bg-organic-tertiaryCont/50 text-organic-onTertiaryCont flex items-center justify-center mb-6">
+              <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 10l-2 1m0 0l-2-1m2 1v2.5M20 7l-2 1m2-1l-2-1m2 1v2.5M14 4l-2-1-2 1M4 7l2-1M4 7l2 1M4 7v2.5M12 21l-2-1m2 1l2-1m-2 1v-2.5M6 18l-2-1v-2.5M18 18l2-1v-2.5"></path></svg>
+            </div>
+            <h3 class="display-font text-2xl font-bold text-organic-textPrimary mb-4">Lifecycle Mapping</h3>
+            <p class="text-organic-textSecondary leading-relaxed">Applies predictive models to calculate current ripeness vectors and establish optimal consumption windows.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Team -->
+      <section class="w-full">
+        <div class="text-center mb-16 max-w-2xl mx-auto">
+          <h2 class="display-font text-4xl font-bold text-organic-textPrimary mb-4">Machine Learning Engineers</h2>
+          <p class="text-xl text-organic-textSecondary">The visionaries powering the Citrus Lens core.</p>
+        </div>
+
+        <div class="grid md:grid-cols-3 gap-10">
+          <!-- Member 1 -->
+          <div class="glass-card rounded-[3rem] p-8 text-center flex flex-col items-center group">
+            <div class="w-40 h-40 rounded-[2rem] overflow-hidden mb-6 border-4 border-organic-surfaceLow group-hover:border-organic-primaryCont transition-colors">
+              <img src="/static/freepik__upload__27961.jpeg" class="w-full h-full object-cover transform group-hover:scale-105 transition-transform" alt="Aditya Shinde" />
+            </div>
+            <h3 class="display-font text-2xl font-bold text-organic-textPrimary mb-1">Aditya Shinde</h3>
+            <p class="text-organic-primary font-bold text-sm mb-4 uppercase tracking-wider">Interface Architect</p>
+            <p class="text-organic-textSecondary text-sm leading-relaxed mb-6">Constructed the Glassmorphism UI layer, bridging user intent with AI outputs.</p>
+          </div>
+
+          <!-- Member 2 -->
+          <div class="glass-card rounded-[3rem] p-8 text-center flex flex-col items-center group">
+            <div class="w-40 h-40 rounded-[2rem] overflow-hidden mb-6 border-4 border-organic-surfaceLow group-hover:border-organic-primaryCont transition-colors">
+              <img src="/static/portrait-beautiful-young-woman-standing-grey-wall.jpg" class="w-full h-full object-cover transform group-hover:scale-105 transition-transform" alt="Vaishnavi Pawar" />
+            </div>
+            <h3 class="display-font text-2xl font-bold text-organic-textPrimary mb-1">Vaishnavi Pawar</h3>
+            <p class="text-organic-primary font-bold text-sm mb-4 uppercase tracking-wider">AI Scientist</p>
+            <p class="text-organic-textSecondary text-sm leading-relaxed mb-6">Trained and tuned the convolutional networks for organic asset detection.</p>
+          </div>
+
+          <!-- Member 3 -->
+          <div class="glass-card rounded-[3rem] p-8 text-center flex flex-col items-center group">
+            <div class="w-40 h-40 rounded-[2rem] overflow-hidden mb-6 border-4 border-organic-surfaceLow group-hover:border-organic-primaryCont transition-colors">
+              <img src="/static/vertical-shot-happy-dark-skinned-female-with-curly-hair.jpg" class="w-full h-full object-cover transform group-hover:scale-105 transition-transform" alt="Sanskruti Wagh" />
+            </div>
+            <h3 class="display-font text-2xl font-bold text-organic-textPrimary mb-1">Sanskruti Wagh</h3>
+            <p class="text-organic-primary font-bold text-sm mb-4 uppercase tracking-wider">Systems Engineer</p>
+            <p class="text-organic-textSecondary text-sm leading-relaxed mb-6">Developed the latency-optimized APIs binding the inference models to the UI.</p>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Footer -->
+    {% include "footer.html" %}
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        // Menu controls
+        const mobileMenuBtn = document.querySelector('[aria-controls="mobile-menu"]');
+        if (mobileMenuBtn) {
+            mobileMenuBtn.addEventListener('click', function() {
+                const menu = document.getElementById('mobile-menu');
+                menu.classList.toggle('hidden');
+            });
+        }
+
+        const dropdownBtn = document.getElementById('user-dropdown-button');
+        if (dropdownBtn) {
+            const menu = document.getElementById('user-dropdown-menu');
+            dropdownBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                menu.classList.toggle('hidden');
+            });
+            document.addEventListener('click', () => {
+                menu.classList.add('hidden');
+            });
+        }
+      });
+    </script>
+  </body>
+</html>

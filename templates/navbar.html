@@ -1,0 +1,63 @@
+{% set active_page = active_page|default('index') %}
+<!-- Header -->
+<header class="sticky top-4 z-50 mx-4 sm:mx-8 lg:mx-auto max-w-7xl rounded-full glass-card mt-4 px-6 md:px-8 py-3 flex items-center justify-between">
+  <!-- Logo -->
+  <a href="/" class="flex items-center space-x-3 group">
+    <div class="w-10 h-10 rounded-full bg-organic-tertiaryCont flex items-center justify-center text-organic-onTertiaryCont transition-transform group-hover:rotate-12">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" class="w-5 h-5" viewBox="0 0 24 24">
+        <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
+      </svg>
+    </div>
+    <span class="display-font text-lg font-bold text-organic-textPrimary hidden sm:block tracking-tight">
+      Citrus<span class="text-organic-primary">Lens</span>
+    </span>
+  </a>
+
+  <!-- Desktop Nav -->
+  <nav class="hidden md:flex items-center space-x-1">
+    <a href="/" class="px-4 py-2 rounded-full font-medium transition-colors {% if active_page == 'index' %}text-organic-primary bg-organic-primaryCont/30{% else %}text-organic-textSecondary hover:text-organic-primary hover:bg-organic-primaryCont/20{% endif %}">Home</a>
+    <a href="/about.html" class="px-4 py-2 rounded-full font-medium transition-colors {% if active_page == 'about' %}text-organic-primary bg-organic-primaryCont/30{% else %}text-organic-textSecondary hover:text-organic-primary hover:bg-organic-primaryCont/20{% endif %}">About</a>
+    <a href="/prediction.html" class="px-4 py-2 rounded-full font-medium transition-colors {% if active_page == 'prediction' %}text-organic-primary bg-organic-primaryCont/30{% else %}text-organic-textSecondary hover:text-organic-primary hover:bg-organic-primaryCont/20{% endif %}">Prediction</a>
+    <a href="/contact.html" class="px-4 py-2 rounded-full font-medium transition-colors {% if active_page == 'contact' %}text-organic-primary bg-organic-primaryCont/30{% else %}text-organic-textSecondary hover:text-organic-primary hover:bg-organic-primaryCont/20{% endif %}">Contact</a>
+
+    <div class="ml-4 border-l border-organic-outlineVariant/20 pl-4 flex items-center space-x-2">
+      {% if 'user_id' in session %}
+      <div class="relative" id="user-dropdown-container">
+        <button id="user-dropdown-button" class="flex items-center space-x-2 px-3 py-2 rounded-full hover:bg-organic-surfaceLow transition-colors" aria-expanded="false">
+          <span class="font-medium text-organic-textPrimary">{{ session['username'] }}</span>
+          <svg class="w-4 h-4 text-organic-textSecondary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+        </button>
+        <div id="user-dropdown-menu" class="absolute right-0 mt-3 w-48 glass-card rounded-2xl shadow-glass py-2 hidden">
+          <a href="/logout" class="block px-5 py-2 text-sm font-medium text-organic-textPrimary hover:bg-organic-surfaceLow transition-colors">Logout</a>
+        </div>
+      </div>
+      {% else %}
+      <a href="/login" class="px-4 py-2 rounded-full font-medium text-organic-textPrimary hover:bg-organic-surfaceLow transition-colors">Login</a>
+      <a href="/register" class="px-5 py-2 rounded-full font-medium text-white btn-primary-gradient">Register</a>
+      {% endif %}
+    </div>
+  </nav>
+
+  <!-- Mobile menu button -->
+  <button class="md:hidden p-2 rounded-full bg-organic-surfaceLow text-organic-textPrimary" aria-controls="mobile-menu" aria-expanded="false">
+    <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+  </button>
+</header>
+
+<!-- Mobile menu -->
+<div class="md:hidden hidden absolute top-20 left-4 right-4 z-40 glass-card rounded-4xl p-4 shadow-glass animate__animated animate__fadeInDown" id="mobile-menu">
+  <div class="flex flex-col space-y-2">
+    <a href="/" class="px-4 py-3 rounded-2xl font-medium {% if active_page == 'index' %}text-organic-primary bg-organic-primaryCont/30{% else %}text-organic-textSecondary hover:bg-organic-surfaceLow{% endif %}">Home</a>
+    <a href="/about.html" class="px-4 py-3 rounded-2xl font-medium {% if active_page == 'about' %}text-organic-primary bg-organic-primaryCont/30{% else %}text-organic-textSecondary hover:bg-organic-surfaceLow{% endif %}">About</a>
+    <a href="/prediction.html" class="px-4 py-3 rounded-2xl font-medium {% if active_page == 'prediction' %}text-organic-primary bg-organic-primaryCont/30{% else %}text-organic-textSecondary hover:bg-organic-surfaceLow{% endif %}">Prediction</a>
+    <a href="/contact.html" class="px-4 py-3 rounded-2xl font-medium {% if active_page == 'contact' %}text-organic-primary bg-organic-primaryCont/30{% else %}text-organic-textSecondary hover:bg-organic-surfaceLow{% endif %}">Contact</a>
+    <div class="h-px bg-organic-outlineVariant/20 my-2"></div>
+    {% if 'user_id' in session %}
+    <div class="px-4 py-2 font-medium text-organic-textPrimary">{{ session['username'] }}</div>
+    <a href="/logout" class="px-4 py-3 rounded-2xl font-medium text-organic-textSecondary hover:bg-organic-surfaceLow">Logout</a>
+    {% else %}
+    <a href="/login" class="px-4 py-3 rounded-2xl font-medium text-organic-textPrimary hover:bg-organic-surfaceLow">Login</a>
+    <a href="/register" class="px-4 py-3 rounded-2xl font-medium text-white text-center btn-primary-gradient mt-2">Register</a>
+    {% endif %}
+  </div>
+</div>

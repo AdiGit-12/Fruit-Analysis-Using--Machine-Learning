@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Fruit Analysis - Predict</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Tailwind CSS (V3 CDN for configuration) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              display: ['"Plus Jakarta Sans"', 'sans-serif'],
+              body: ['"Inter"', 'sans-serif'],
+            },
+            colors: {
+              organic: {
+                bg: '#f5f7f5',
+                surfaceLow: '#eff1ef',
+                surface: '#ffffff',
+                primary: '#006b1b',
+                primaryDim: '#005d16',
+                primaryCont: '#91f78e',
+                secondary: '#874e00',
+                secondaryCont: '#ffc791',
+                onSecondaryCont: '#6a3c00',
+                tertiaryCont: '#eefe59',
+                onTertiaryCont: '#596100',
+                textPrimary: '#2c2f2e',
+                textSecondary: '#595c5b',
+                outlineVariant: '#abaeac',
+              }
+            },
+            borderRadius: {
+              '4xl': '2rem',
+              '5xl': '3rem',
+            },
+            boxShadow: {
+              'glass': '0 40px 40px -10px rgba(44, 47, 46, 0.06)',
+            }
+          }
+        }
+      }
+    </script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+
+    <style>
+      body {
+        font-family: 'Inter', sans-serif;
+        background-color: #f5f7f5;
+        color: #2c2f2e;
+      }
+      h1, h2, h3, h4, h5, h6, .display-font {
+        font-family: 'Plus Jakarta Sans', sans-serif;
+      }
+      .glass-card {
+        background: rgba(255, 255, 255, 0.7);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border: 1px solid rgba(171, 174, 172, 0.15); /* ghost border */
+        box-shadow: 0 40px 40px -10px rgba(44, 47, 46, 0.06);
+      }
+      .btn-primary-gradient {
+        background: linear-gradient(90deg, #006b1b 0%, #005d16 100%);
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+      }
+      .btn-primary-gradient:hover {
+        transform: scale(1.02);
+        box-shadow: 0 10px 25px -5px rgba(0, 107, 27, 0.3);
+      }
+
+      /* Upload box logic */
+      .file-upload {
+        height: 250px;
+        width: 100%;
+        border-radius: 2rem;
+        border: 2px dashed rgba(171, 174, 172, 0.5);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        background: #f5f7f5;
+      }
+      .file-upload:hover {
+        border-color: #006b1b;
+        background-color: #eff1ef;
+      }
+      .file-upload.active {
+        border-color: #006b1b;
+        background-color: #91f78e33;
+      }
+      #imagePreview {
+        max-height: 200px;
+        max-width: 100%;
+        border-radius: 1.5rem;
+        display: none;
+        box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+      }
+      
+      #user-dropdown-menu {
+        transition: opacity 0.2s ease, transform 0.2s ease;
+      }
+      #user-dropdown-menu:not(.hidden) {
+        display: block;
+        opacity: 1;
+        transform: translateY(0);
+      }
+    </style>
+  </head>
+  <body class="bg-organic-bg text-organic-textPrimary relative overflow-x-hidden min-h-screen flex flex-col">
+    {% include "background.html" %}
+
+    {% set active_page = "prediction" %}
+    {% include "navbar.html" %}
+
+    <!-- Main Content -->
+    <main class="flex-grow flex flex-col items-center pt-24 pb-32 px-5 sm:px-8 w-full max-w-5xl mx-auto relative">
+      <!-- Decor blobs -->
+      <div class="absolute top-10 -left-20 w-72 h-72 bg-organic-primaryCont/30 rounded-full mix-blend-multiply filter blur-3xl opacity-70 z-0 pointer-events-none"></div>
+
+      <div class="relative z-10 w-full">
+        <div class="mb-12 text-center max-w-2xl mx-auto">
+          <span class="inline-flex items-center px-4 py-2 rounded-full bg-organic-surfaceLow text-organic-textPrimary text-sm font-semibold mb-4 border border-organic-surface">
+            Machine Learning Core
+          </span>
+          <h1 class="display-font text-5xl font-bold text-organic-textPrimary mb-4">Precision Analysis</h1>
+          <p class="text-organic-textSecondary text-lg">Input biological data via image format. The intelligent core will dissect properties such as type, confidence index, and estimated freshness curves.</p>
+        </div>
+
+        <!-- Prediction Results -->
+        {% if prediction %}
+        <div class="glass-card rounded-[3rem] p-8 lg:p-10 mb-12 shadow-glass animate__animated animate__fadeInUp">
+            <h3 class="display-font text-3xl font-bold text-organic-textPrimary mb-8 border-b border-organic-outlineVariant/20 pb-4">Analysis Report</h3>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-10">
+                <!-- Image Box -->
+                <div class="bg-organic-surfaceLow/50 rounded-[2rem] p-6 flex flex-col items-center justify-center border border-white">
+                    <span class="text-xs font-bold text-organic-textSecondary uppercase tracking-wider mb-4">Visual Data Fragment</span>
+                    <img src="{{ url_for('static', filename=image_path) }}" alt="Uploaded Fruit" class="max-h-64 object-cover rounded-2xl shadow-sm border-2 border-white transform transition-transform hover:scale-105">
+                </div>
+
+                <!-- Details -->
+                <div class="space-y-6">
+                    <div class="flex items-center justify-between border-b border-organic-outlineVariant/20 pb-4">
+                        <span class="text-organic-textSecondary font-medium text-lg">Species Identifier</span>
+                        <span class="display-font text-3xl font-bold text-organic-primary capitalize">{{fruit_info.name}}</span>
+                    </div>
+
+                    <div class="flex items-center justify-between border-b border-organic-outlineVariant/20 pb-4">
+                        <span class="text-organic-textSecondary font-medium text-lg">Confidence Metric</span>
+                        <span class="bg-organic-tertiaryCont text-organic-onTertiaryCont px-4 py-1.5 rounded-full text-base font-bold shadow-sm">{{confidence}}%</span>
+                    </div>
+
+                    <!-- Chips container -->
+                    <div class="pt-2 flex flex-wrap gap-4">
+                        {% if 'fresh' in prediction %}
+                        <div class="bg-organic-primaryCont/30 text-organic-primary px-5 py-3 rounded-xl font-bold flex items-center shadow-sm">
+                            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg>
+                            Optimal Freshness
+                        </div>
+                        {% else %}
+                        <div class="bg-organic-secondaryCont/40 text-organic-onSecondaryCont px-5 py-3 rounded-xl font-bold flex items-center shadow-sm">
+                            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+                            Sub-Optimal / Overripe
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+                
+                <div class="lg:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
+                  <!-- Storage details -->
+                  <div class="bg-white rounded-3xl p-6 shadow-sm border border-organic-surfaceLow flex flex-col h-full">
+                      <h4 class="display-font font-bold text-organic-textPrimary mb-3 flex items-center text-xl">
+                          <svg class="w-5 h-5 mr-3 text-organic-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"></path></svg>
+                          Storage Protocol
+                      </h4>
+                      <p class="text-organic-textSecondary leading-relaxed flex-grow">{{fruit_info.storage_tips}}</p>
+                  </div>
+
+                  <div class="bg-white rounded-3xl p-6 shadow-sm border border-organic-surfaceLow flex flex-col h-full">
+                    <h4 class="display-font font-bold text-organic-textPrimary mb-3 flex items-center text-xl">
+                        <svg class="w-5 h-5 mr-3 text-organic-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        Freshness Span
+                    </h4>
+                    <p class="text-organic-textSecondary leading-relaxed">{{fruit_info.duration}}</p>
+                    
+                    {% if freshness.fresh_until %}
+                    <div class="mt-auto pt-4 border-t border-organic-outlineVariant/20">
+                        <p class="text-sm font-medium text-organic-textPrimary">
+                            Est. Expiration: 
+                            <span class="text-organic-primary text-base ml-1">{{ freshness.fresh_until }}</span>
+                            {% if freshness.storage_condition %}<span class="block mt-1 text-organic-textSecondary">({{ freshness.storage_condition }})</span>{% endif %}
+                        </p>
+                    </div>
+                    {% endif %}
+                  </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Upload Form -->
+        <div class="glass-card rounded-[3rem] p-8 lg:p-12 shadow-glass animate__animated animate__fadeInUp bg-white/60">
+          <form action="/prediction.html" method="POST" enctype="multipart/form-data" class="flex flex-col items-center">
+            
+            <div class="file-upload w-full max-w-3xl" id="dropArea">
+              <input type="file" id="fruit" name="fruit" accept="image/*" class="hidden" required />
+              
+              <div id="uploadContent" class="text-center flex flex-col items-center">
+                <div class="w-16 h-16 rounded-full bg-organic-surface border border-organic-surfaceLow flex items-center justify-center text-organic-primary mb-4 shadow-sm">
+                  <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path></svg>
+                </div>
+                <p class="text-xl font-medium text-organic-textPrimary display-font">Drag & drop your imaging data here</p>
+                <p class="text-organic-textSecondary mt-2">or click to browse systems</p>
+              </div>
+              
+              <img id="imagePreview" alt="Upload Preview" />
+            </div>
+
+            <div class="mt-8 text-center flex flex-col items-center w-full max-w-sm">
+              <button type="submit" id="analyzeBtn" class="w-full px-8 py-4 text-white text-lg font-bold rounded-full btn-primary-gradient shadow-glass disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none disabled:shadow-none transition-all flex justify-center items-center" disabled>
+                <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                Initialize Analysis
+              </button>
+            </div>
+
+          </form>
+        </div>
+
+      </div>
+    </main>
+
+    <!-- Footer -->
+    {% include "footer.html" %}
+
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        // Menu controls
+        const mobileMenuBtn = document.querySelector('[aria-controls="mobile-menu"]');
+        if (mobileMenuBtn) {
+            mobileMenuBtn.addEventListener('click', function() {
+                const menu = document.getElementById('mobile-menu');
+                menu.classList.toggle('hidden');
+            });
+        }
+
+        const dropdownBtn = document.getElementById('user-dropdown-button');
+        if (dropdownBtn) {
+            const menu = document.getElementById('user-dropdown-menu');
+            dropdownBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                menu.classList.toggle('hidden');
+            });
+            document.addEventListener('click', () => {
+                menu.classList.add('hidden');
+            });
+        }
+
+
+        // Upload logic
+        const fileInput = document.getElementById("fruit");
+        const dropArea = document.getElementById("dropArea");
+        const uploadContent = document.getElementById("uploadContent");
+        const imagePreview = document.getElementById("imagePreview");
+        const analyzeBtn = document.getElementById("analyzeBtn");
+
+        // Click to select file
+        if(dropArea) {
+            dropArea.addEventListener("click", () => fileInput.click());
+
+            // Handle file selection
+            fileInput.addEventListener("change", function (e) {
+                handleFiles(this.files);
+            });
+
+            // Drag and drop functionality
+            ["dragenter", "dragover", "dragleave", "drop"].forEach((eventName) => {
+                dropArea.addEventListener(eventName, preventDefaults, false);
+            });
+
+            // Visual feedback
+            ["dragenter", "dragover"].forEach((eventName) => {
+                dropArea.addEventListener(eventName, highlight, false);
+            });
+
+            ["dragleave", "drop"].forEach((eventName) => {
+                dropArea.addEventListener(eventName, unhighlight, false);
+            });
+
+            dropArea.addEventListener("drop", function (e) {
+                const dt = e.dataTransfer;
+                const files = dt.files;
+                fileInput.files = files; // Attach directly to the input payload
+                handleFiles(files);
+            });
+
+            function preventDefaults(e) {
+                e.preventDefault();
+                e.stopPropagation();
+            }
+
+            function highlight() {
+                dropArea.classList.add("active");
+            }
+
+            function unhighlight() {
+                dropArea.classList.remove("active");
+            }
+
+            function handleFiles(files) {
+                if (files.length > 0) {
+                    const file = files[0];
+                    if (file.type.match("image.*")) {
+                    const reader = new FileReader();
+
+                    reader.onload = function (e) {
+                        imagePreview.src = e.target.result;
+                        imagePreview.style.display = "block";
+                        uploadContent.style.display = "none";
+                        analyzeBtn.disabled = false;
+                    };
+
+                    reader.readAsDataURL(file);
+                    }
+                }
+            }
+
+            // Reset if user clicks cancel
+            fileInput.addEventListener("click", function (e) {
+                this.value = null;
+            });
+        }
+      });
+    </script>
+  </body>
+</html>

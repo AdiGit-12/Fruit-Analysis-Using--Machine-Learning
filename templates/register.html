@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Register - Fruit Analysis</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Tailwind CSS (V3 CDN for configuration) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              display: ['"Plus Jakarta Sans"', 'sans-serif'],
+              body: ['"Inter"', 'sans-serif'],
+            },
+            colors: {
+              organic: {
+                bg: '#f5f7f5',
+                surfaceLow: '#eff1ef',
+                surface: '#ffffff',
+                primary: '#006b1b',
+                primaryDim: '#005d16',
+                primaryCont: '#91f78e',
+                secondary: '#874e00',
+                secondaryCont: '#ffc791',
+                onSecondaryCont: '#6a3c00',
+                tertiaryCont: '#eefe59',
+                onTertiaryCont: '#596100',
+                textPrimary: '#2c2f2e',
+                textSecondary: '#595c5b',
+                outlineVariant: '#abaeac',
+              }
+            },
+            borderRadius: {
+              '4xl': '2rem',
+              '5xl': '3rem',
+            },
+            boxShadow: {
+              'glass': '0 40px 40px -10px rgba(44, 47, 46, 0.06)',
+            }
+          }
+        }
+      }
+    </script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+
+    <style>
+      body {
+        font-family: 'Inter', sans-serif;
+        background-color: #f5f7f5;
+        color: #2c2f2e;
+      }
+      h1, h2, h3, h4, h5, h6, .display-font {
+        font-family: 'Plus Jakarta Sans', sans-serif;
+      }
+      .glass-card {
+        background: rgba(255, 255, 255, 0.7);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border: 1px solid rgba(171, 174, 172, 0.15); /* ghost border */
+        box-shadow: 0 40px 40px -10px rgba(44, 47, 46, 0.06);
+      }
+      .btn-primary-gradient {
+        background: linear-gradient(90deg, #006b1b 0%, #005d16 100%);
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+      }
+      .btn-primary-gradient:hover {
+        transform: scale(1.02);
+        box-shadow: 0 10px 25px -5px rgba(0, 107, 27, 0.3);
+      }
+      .ghost-input {
+        background: #d9dedb;
+        border: 1px solid rgba(171, 174, 172, 0.4);
+        transition: all 0.3s ease;
+      }
+      .ghost-input:focus {
+        outline: none;
+        box-shadow: 0 0 0 4px rgba(0, 107, 27, 0.15);
+        border-color: #006b1b;
+      }
+      .alert {
+        padding: 1rem 1.5rem;
+        margin-bottom: 1rem;
+        border-radius: 1rem;
+        font-weight: 500;
+      }
+      .alert-error {
+        background-color: #fee2e2;
+        color: #991b1b;
+        border: 1px solid #f87171;
+      }
+      .alert-success {
+        background-color: #dcfce7;
+        color: #166534;
+        border: 1px solid #4ade80;
+      }
+    </style>
+  </head>
+  <body class="bg-organic-bg text-organic-textPrimary relative overflow-x-hidden min-h-screen flex flex-col justify-center items-center py-12">
+    {% include "background.html" %}
+
+    <!-- Decor blobs -->
+    <div class="absolute top-1/4 left-1/4 w-96 h-96 bg-organic-primaryCont/30 rounded-full mix-blend-multiply filter blur-3xl opacity-60 z-0 pointer-events-none -translate-x-1/2 -translate-y-1/2"></div>
+    <div class="absolute bottom-1/4 right-1/4 w-96 h-96 bg-organic-secondaryCont/40 rounded-full mix-blend-multiply filter blur-3xl opacity-60 z-0 pointer-events-none translate-x-1/2 translate-y-1/2"></div>
+
+    <div class="w-full max-w-md mx-auto px-5 sm:px-8 relative z-10">
+      
+      <div class="text-center mb-10">
+        <a href="/" class="inline-flex items-center space-x-3 group justify-center">
+            <div class="w-14 h-14 rounded-full bg-organic-tertiaryCont flex items-center justify-center text-organic-onTertiaryCont transition-transform group-hover:rotate-12 shadow-sm border border-white">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" class="w-7 h-7" viewBox="0 0 24 24">
+                <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
+              </svg>
+            </div>
+        </a>
+        <h1 class="display-font text-3xl font-bold text-organic-textPrimary mt-6 tracking-tight">Citrus<span class="text-organic-primary">Lens</span> Registration</h1>
+      </div>
+
+      <div class="glass-card rounded-[3rem] p-8 lg:p-10 shadow-glass w-full relative">
+        <h2 class="display-font text-2xl font-bold text-organic-textPrimary mb-8 text-center border-b border-organic-outlineVariant/20 pb-4">Initialize Network Node</h2>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+          {% if messages %}
+            {% for category, message in messages %}
+              <div class="alert alert-{{ category }} animate__animated animate__fadeIn">{{ message }}</div>
+            {% endfor %}
+          {% endif %}
+        {% endwith %}
+
+        <form method="POST" action="{{ url_for('register') }}" class="space-y-6">
+          <div class="space-y-1">
+            <label for="username" class="block text-sm font-bold text-organic-textSecondary ml-2">User Identifier</label>
+            <input type="text" id="username" name="username" class="ghost-input w-full rounded-full px-6 py-4 text-organic-textPrimary" placeholder="Choose a username" minlength="3" maxlength="100" pattern="[A-Za-z0-9_]+" title="Alphanumeric characters and underscores only." required>
+          </div>
+
+          <div class="space-y-1">
+            <label for="email" class="block text-sm font-bold text-organic-textSecondary ml-2">Communication Vector (Email)</label>
+            <input type="email" id="email" name="email" class="ghost-input w-full rounded-full px-6 py-4 text-organic-textPrimary" placeholder="your@email.com" maxlength="100" required>
+          </div>
+
+          <div class="space-y-1">
+            <label for="password" class="block text-sm font-bold text-organic-textSecondary ml-2">Secure Key</label>
+            <input type="password" id="password" name="password" class="ghost-input w-full rounded-full px-6 py-4 text-organic-textPrimary" placeholder="Create a password" minlength="8" maxlength="200" required>
+          </div>
+
+          <div class="space-y-1">
+            <label for="confirm_password" class="block text-sm font-bold text-organic-textSecondary ml-2">Verify Secure Key</label>
+            <input type="password" id="confirm_password" name="confirm_password" class="ghost-input w-full rounded-full px-6 py-4 text-organic-textPrimary" placeholder="Repeat password" minlength="8" maxlength="200" required>
+          </div>
+
+          <div class="pt-4">
+            <button type="submit" class="w-full text-white text-lg font-bold py-4 rounded-full btn-primary-gradient shadow-glass inline-flex justify-center items-center">
+              Generate Identity
+            </button>
+          </div>
+        </form>
+
+        <div class="mt-8 text-center pt-6 border-t border-organic-outlineVariant/20">
+          <p class="text-organic-textSecondary font-medium">
+            Node already exists? 
+            <a href="{{ url_for('login') }}" class="text-organic-primary hover:text-organic-primaryDim transition-colors font-bold ml-1">Access Protocol</a>
+          </p>
+        </div>
+      </div>
+      
+    </div>
+
+      {% include 'footer.html' %}
+  </body>
+</html>

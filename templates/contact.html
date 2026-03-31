@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Contact Us - Fruit Analysis</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Tailwind CSS (V3 CDN for configuration) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              display: ['"Plus Jakarta Sans"', 'sans-serif'],
+              body: ['"Inter"', 'sans-serif'],
+            },
+            colors: {
+              organic: {
+                bg: '#f5f7f5',
+                surfaceLow: '#eff1ef',
+                surface: '#ffffff',
+                primary: '#006b1b',
+                primaryDim: '#005d16',
+                primaryCont: '#91f78e',
+                secondary: '#874e00',
+                secondaryCont: '#ffc791',
+                onSecondaryCont: '#6a3c00',
+                tertiaryCont: '#eefe59',
+                onTertiaryCont: '#596100',
+                textPrimary: '#2c2f2e',
+                textSecondary: '#595c5b',
+                outlineVariant: '#abaeac',
+              }
+            },
+            borderRadius: {
+              '4xl': '2rem',
+              '5xl': '3rem',
+            },
+            boxShadow: {
+              'glass': '0 40px 40px -10px rgba(44, 47, 46, 0.06)',
+            }
+          }
+        }
+      }
+    </script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+
+    <style>
+      body {
+        font-family: 'Inter', sans-serif;
+        background-color: #f5f7f5;
+        color: #2c2f2e;
+      }
+      h1, h2, h3, h4, h5, h6, .display-font {
+        font-family: 'Plus Jakarta Sans', sans-serif;
+      }
+      .glass-card {
+        background: rgba(255, 255, 255, 0.7);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border: 1px solid rgba(171, 174, 172, 0.15); /* ghost border */
+        box-shadow: 0 40px 40px -10px rgba(44, 47, 46, 0.06);
+      }
+      .btn-primary-gradient {
+        background: linear-gradient(90deg, #006b1b 0%, #005d16 100%);
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+      }
+      .btn-primary-gradient:hover {
+        transform: scale(1.02);
+        box-shadow: 0 10px 25px -5px rgba(0, 107, 27, 0.3);
+      }
+      #user-dropdown-menu {
+        transition: opacity 0.2s ease, transform 0.2s ease;
+      }
+      #user-dropdown-menu:not(.hidden) {
+        display: block;
+        opacity: 1;
+        transform: translateY(0);
+      }
+      .ghost-input {
+        background: #d9dedb;
+        border: 1px solid rgba(171, 174, 172, 0.4);
+        transition: all 0.3s ease;
+      }
+      .ghost-input:focus {
+        outline: none;
+        box-shadow: 0 0 0 4px rgba(0, 107, 27, 0.15);
+        border-color: #006b1b;
+      }
+    </style>
+  </head>
+  <body class="bg-organic-bg text-organic-textPrimary relative overflow-x-hidden min-h-screen flex flex-col">
+    {% include "background.html" %}
+
+    {% set active_page = "contact" %}
+    {% include "navbar.html" %}
+
+    <!-- Main Content -->
+    <main class="flex-grow flex flex-col items-center pt-20 pb-32 px-5 sm:px-8 w-full max-w-5xl mx-auto relative">
+      <!-- Decor blobs -->
+      <div class="absolute top-20 right-0 w-72 h-72 bg-organic-secondaryCont/40 rounded-full mix-blend-multiply filter blur-3xl opacity-60 z-0 pointer-events-none"></div>
+
+      <div class="w-full text-center max-w-3xl mx-auto mb-16 relative z-10">
+        <h1 class="display-font text-5xl md:text-6xl font-bold text-organic-textPrimary leading-tight mb-6">Connect with us.</h1>
+        <p class="text-xl text-organic-textSecondary leading-relaxed">Questions? Need to integrate our computer vision APIs into your systems? Send a message and our engineers will respond.</p>
+      </div>
+
+      <!-- Contact Form -->
+      <div class="glass-card rounded-[3rem] p-8 lg:p-12 shadow-glass w-full max-w-2xl mx-auto relative z-10">
+        <form method="POST" action="{{ url_for('contact') }}" class="space-y-6">
+          
+          <div class="space-y-1">
+            <label for="name" class="block text-sm font-bold text-organic-textSecondary ml-2">Identificaton (Name)</label>
+            <input type="text" id="name" name="name" class="ghost-input w-full rounded-full px-6 py-4 text-organic-textPrimary" placeholder="Your name" minlength="2" maxlength="100" required>
+          </div>
+
+          <div class="space-y-1">
+            <label for="email" class="block text-sm font-bold text-organic-textSecondary ml-2">Communication Vector (Email)</label>
+            <input type="email" id="email" name="email" class="ghost-input w-full rounded-full px-6 py-4 text-organic-textPrimary" placeholder="your@email.com" maxlength="100" required>
+          </div>
+
+          <div class="space-y-1">
+            <label for="subject" class="block text-sm font-bold text-organic-textSecondary ml-2">Reference Subject</label>
+            <input type="text" id="subject" name="subject" class="ghost-input w-full rounded-full px-6 py-4 text-organic-textPrimary" placeholder="Subject matter" minlength="5" maxlength="200" required>
+          </div>
+
+          <div class="space-y-1">
+            <label for="message" class="block text-sm font-bold text-organic-textSecondary ml-2">Data Payload (Message)</label>
+            <textarea id="message" name="message" rows="4" class="ghost-input w-full rounded-[2rem] px-6 py-4 text-organic-textPrimary resize-none" placeholder="Provide system details or queries here..." minlength="10" maxlength="1000" required></textarea>
+          </div>
+
+          <div class="pt-4">
+            <button type="submit" class="w-full text-white text-lg font-bold py-4 rounded-full btn-primary-gradient shadow-glass inline-flex justify-center items-center">
+              Transmit Payload 
+              <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+            </button>
+          </div>
+        </form>
+      </div>
+
+    </main>
+
+    <!-- Footer -->
+    {% include "footer.html" %}
+
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        // Menu controls
+        const mobileMenuBtn = document.querySelector('[aria-controls="mobile-menu"]');
+        if (mobileMenuBtn) {
+            mobileMenuBtn.addEventListener('click', function() {
+                const menu = document.getElementById('mobile-menu');
+                menu.classList.toggle('hidden');
+            });
+        }
+
+        const dropdownBtn = document.getElementById('user-dropdown-button');
+        if (dropdownBtn) {
+            const menu = document.getElementById('user-dropdown-menu');
+            dropdownBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                menu.classList.toggle('hidden');
+            });
+            document.addEventListener('click', () => {
+                menu.classList.add('hidden');
+            });
+        }
+      });
+    </script>
+  </body>
+</html>

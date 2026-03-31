@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Users - Fruit Analysis</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Tailwind CSS (V3 CDN for configuration) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              display: ['"Plus Jakarta Sans"', 'sans-serif'],
+              body: ['"Inter"', 'sans-serif'],
+            },
+            colors: {
+              organic: {
+                bg: '#f5f7f5',
+                surfaceLow: '#eff1ef',
+                surface: '#ffffff',
+                primary: '#006b1b',
+                primaryDim: '#005d16',
+                primaryCont: '#91f78e',
+                secondary: '#874e00',
+                secondaryCont: '#ffc791',
+                onSecondaryCont: '#6a3c00',
+                tertiaryCont: '#eefe59',
+                onTertiaryCont: '#596100',
+                textPrimary: '#2c2f2e',
+                textSecondary: '#595c5b',
+                outlineVariant: '#abaeac',
+              }
+            },
+            borderRadius: {
+              '4xl': '2rem',
+              '5xl': '3rem',
+            },
+            boxShadow: {
+              'glass': '0 40px 40px -10px rgba(0, 0, 0, 0.3)',
+            }
+          }
+        }
+      }
+    </script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+
+    <style>
+      body {
+        font-family: 'Inter', sans-serif;
+        background-color: #2c2f2e; /* dark mode for admin */
+        color: #f5f7f5;
+      }
+      h1, h2, h3, h4, h5, h6, .display-font {
+        font-family: 'Plus Jakarta Sans', sans-serif;
+      }
+      .glass-nav {
+        background: rgba(44, 47, 46, 0.8);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      }
+      .glass-card {
+        background: rgba(255, 255, 255, 0.05);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        box-shadow: 0 40px 40px -10px rgba(0, 0, 0, 0.3);
+      }
+      table th {
+        background: rgba(255, 255, 255, 0.05);
+        color: #abaeac;
+      }
+      table td {
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+      }
+    </style>
+  </head>
+  <body class="relative overflow-x-hidden min-h-screen flex flex-col">
+    {% include "background.html" %}
+
+    <!-- Header -->
+    <header class="glass-nav sticky top-0 z-50">
+      <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div class="flex items-center justify-between h-20">
+          
+          <div class="flex items-center space-x-4">
+            <a href="/" class="flex items-center group">
+                <div class="w-10 h-10 rounded-full bg-organic-secondaryCont flex items-center justify-center text-organic-onSecondaryCont transition-transform group-hover:rotate-12 border border-transparent">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" class="w-5 h-5" viewBox="0 0 24 24">
+                    <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
+                  </svg>
+                </div>
+                <span class="ml-3 display-font text-xl font-bold text-white tracking-tight">System<span class="text-organic-secondaryCont">Admin</span></span>
+            </a>
+          </div>
+
+          <nav class="hidden md:flex items-center space-x-2">
+            <a href="/admin/dashboard" class="px-4 py-2 rounded-full font-medium text-organic-outlineVariant hover:text-white transition-colors">Dashboard</a>
+            <a href="/admin/users" class="px-4 py-2 rounded-full font-medium text-organic-secondaryCont bg-organic-secondaryCont/20 transition-colors">Users</a>
+            <a href="/admin/predictions" class="px-4 py-2 rounded-full font-medium text-organic-outlineVariant hover:text-white transition-colors">Predictions</a>
+            <a href="/admin/contacts" class="px-4 py-2 rounded-full font-medium text-organic-outlineVariant hover:text-white transition-colors">Contacts</a>
+            <div class="ml-4 pl-4 border-l border-white/20">
+                <a href="/admin/logout" class="px-4 py-2 rounded-full font-medium text-red-400 hover:text-red-300 transition-colors">Logout</a>
+            </div>
+          </nav>
+          
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="flex-grow pt-10 pb-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto w-full">
+        <div class="flex justify-between items-center mb-8">
+          <h1 class="display-font text-3xl font-bold text-white mb-8">Network Nodes</h1>
+        </div>
+
+        <div class="glass-card rounded-4xl p-8">
+            <div class="overflow-x-auto">
+                <table class="w-full text-left border-collapse">
+                    <thead>
+                    <tr>
+                        <th class="px-6 py-4 text-xs font-bold uppercase tracking-wider rounded-tl-xl text-organic-outlineVariant">Node ID</th>
+                        <th class="px-6 py-4 text-xs font-bold uppercase tracking-wider text-organic-outlineVariant">Username</th>
+                        <th class="px-6 py-4 text-xs font-bold uppercase tracking-wider text-organic-outlineVariant">Vector (Email)</th>
+                        <th class="px-6 py-4 text-xs font-bold uppercase tracking-wider rounded-tr-xl text-organic-outlineVariant">Initialization Date</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for user in users %}
+                    <tr class="hover:bg-white/5 transition-colors">
+                        <td class="px-6 py-5 text-organic-outlineVariant font-mono text-sm">#{{ user[0] }}</td>
+                        <td class="px-6 py-5 text-white font-medium">{{ user[1] }}</td>
+                        <td class="px-6 py-5 text-organic-outlineVariant">{{ user[2] }}</td>
+                        <td class="px-6 py-5 text-organic-outlineVariant text-sm">{{ user[3] }}</td>
+                    </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+
+      {% include 'footer.html' %}
+  </body>
+</html>
