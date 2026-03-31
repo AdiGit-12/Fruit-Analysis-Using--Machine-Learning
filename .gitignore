@@ -10,10 +10,5 @@ models/
 *.pt
 *.png
 *.jpg
-*.jpeg
-*.txt   
+*.jpeg   
 *.ipynb
-*.md
-*.txt
-*.log
-*.txt.txt
